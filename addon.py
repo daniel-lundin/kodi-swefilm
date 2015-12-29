@@ -31,7 +31,8 @@ def movies():
         url, label, poster = item
         return {
             'label': safe_decode(label),
-            'path': plugin.url_for('play_movie', url=url)
+            'path': plugin.url_for('play_movie', url=url),
+            'is_playable': True
         }
     return map(to_kodi_item, movies)
 
@@ -40,7 +41,9 @@ def play_movie(url):
     print 'playing, ', url
     streams = swefilm.get_movie_streams(url)
     print 'streams', streams
-    plugin.set_resolved_url(streams[0][0])
+    stream = streams[0][1]
+    print 'stream', stream
+    plugin.set_resolved_url(stream)
 
 if __name__ == '__main__':
     plugin.run()
