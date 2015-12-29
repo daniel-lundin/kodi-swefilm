@@ -1,8 +1,10 @@
 import utils
+import urllib
 import parsers
 
 BASE_URL = 'http://swefilm.tv'
 MOVIES_URL = 'http://swefilm.tv/list/film/'
+SEARCH_URL = 'http://swefilm.tv/search/%s'
 
 def list_movies():
     html = utils.fetch_html(MOVIES_URL)
@@ -14,10 +16,12 @@ def get_movie_streams(movie_url):
     player_frame = utils.fetch_html(player_link)
     player_frame_src = parsers.get_player_iframe_src(player_frame)
     player_html = utils.fetch_html(player_frame_src)
-    print player_html
-    print 'link: ', player_link
     return parsers.parse_player(player_html)
 
+def search(q):
+    search_url = SEARCH_URL % urllib.quote_plus(q)
+    html_result = utils.fetch_html(search_url)
+    return parsers.parse_search(html_result)
 
 if __name__ == '__main__':
     print list_movies()

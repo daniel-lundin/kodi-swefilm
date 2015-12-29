@@ -30,6 +30,9 @@ def get_player_iframe_src(html):
 
     return None
 
+def parse_search(html):
+    return parse_movie_page(html)
+
 def extract_source_tags(html):
     source_tags = re.findall(r'(<source.*?\/>)', html)
     if source_tags:

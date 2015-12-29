@@ -1,4 +1,5 @@
 import urllib2
+import HTMLParser
 
 def fetch_html(url):
     request = urllib2.Request(url, headers={
@@ -9,5 +10,14 @@ def fetch_html(url):
     contents = urllib2.urlopen(request).read()
     return contents
 
-if __name__ == '__main__':
-    print fetch_html('http://swefilm.tv/film/four-rooms_if0ec/')
+def safe_decode(word):
+    h = HTMLParser.HTMLParser()
+    word = h.unescape(word)
+    s = ''
+    for letter in word:
+        if ord(letter) > 127:
+            s += '_'
+        else:
+            s += letter
+    return s
+
