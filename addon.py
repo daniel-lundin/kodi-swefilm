@@ -41,12 +41,12 @@ def search():
 
 
 def to_kodi_item(item):
-    url, label, poster = item
     return {
-        'label': utils.safe_decode(label),
-        'path': plugin.url_for('play_movie', url=url),
-        'thumbnail': swefilm.BASE_URL + poster,
+        'label': utils.safe_decode(item.title),
+        'path': plugin.url_for('play_movie', url=item.player_url),
+        'thumbnail': swefilm.BASE_URL + item.poster,
         'is_playable': True
     }
+
 if __name__ == '__main__':
     plugin.run()

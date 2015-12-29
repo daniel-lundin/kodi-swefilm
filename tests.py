@@ -13,6 +13,16 @@ def test_movie_page_parsing():
         assert len(items) == 25
 
 
+def test_movie_details_parsing():
+    with open('fixtures/movie_detail.html') as f:
+        item = parsers.extract_movie_item(f.read())
+        assert item.title == 'Mean Machine (2001)'
+        assert item.player_url == 'http://swefilm.tv/film/mean-machine_if0ey/'
+        assert item.year == '2001'
+        assert item.length == '99 min'
+        assert item.resolution == '1080P'
+
+
 def test_find_player_link_from_movie_page():
     with open('fixtures/movie_page.html') as f:
         player_link = parsers.get_player_link(f.read())

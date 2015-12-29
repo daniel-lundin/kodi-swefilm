@@ -1,5 +1,8 @@
 import base64
 import re
+from collections import namedtuple
+
+Movie = namedtuple('Movie', ['title', 'year', 'length', 'poster', 'resolution', 'player_url'])
 
 def parse_player(html):
     atob_start = html.find('window.atob')
@@ -45,9 +48,15 @@ def extract_source_tags(html):
         return streams
 
 def extract_movie_item(html):
-    match = re.search(r'<a.*?href="(.*?)".*?title="(.*?)".*?src="(.*?)".*?</a>', html)
-    [url, title, cover] = match.groups()
-    return [url, title, cover]
+    main_match = re.search(r'<a.*?href="(.*?)".*?src="(.*?)".*?</a>.*?<a href.*?>(.*?)<\/a>', html, re.DOTALL)
+    [url, poster, title] = main_match.groups()
+    detail_match = re.search(r'<span class="q">(.*?)</span><span class="y">(.*?)</span><span class="p">(.*?)</span>', html)
+    [length, year, resolution] = detail_match.groups()
+    return Movie(title=title, player_url=url,
+                 year=year, length=length,
+                 poster=poster, resolution=resolution)
+
+    return [url, title, poster]
 
 def extract_movie_items(html):
     items = re.findall(r'(<li>.*?</li>)', html, re.DOTALL)
