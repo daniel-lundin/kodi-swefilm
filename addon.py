@@ -13,14 +13,20 @@ def index():
         },
         {
             'label': 'List movies',
-            'path': plugin.url_for('movies')
+            'path': plugin.url_for('movies', page='1')
         }
     ]
 
-@plugin.route('/movies')
-def movies():
-    movies = swefilm.list_movies()
-    return map(to_kodi_item, movies)
+@plugin.route('/movies/<page>')
+def movies(page='1'):
+    page = int(page)
+    movies = swefilm.list_movies(page)
+    items = map(to_kodi_item, movies)
+    items.append({
+        'label': 'Next...',
+        'path': plugin.url_for('movies', page=str(page + 1))
+    })
+    return items
 
 @plugin.route('/play_movie/<url>/')
 def play_movie(url):

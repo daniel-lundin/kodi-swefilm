@@ -3,11 +3,11 @@ import urllib
 import parsers
 
 BASE_URL = 'http://swefilm.tv'
-MOVIES_URL = 'http://swefilm.tv/list/film/'
+MOVIES_URL = 'http://swefilm.tv/list/film/page-%s'
 SEARCH_URL = 'http://swefilm.tv/search/%s'
 
-def list_movies():
-    html = utils.fetch_html(MOVIES_URL)
+def list_movies(page):
+    html = utils.fetch_html(MOVIES_URL % page)
     return parsers.parse_movie_page(html)
 
 def get_movie_streams(movie_url):
