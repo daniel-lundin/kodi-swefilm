@@ -48,7 +48,6 @@ def series(page='1'):
 def play_movie(url):
     streams = swefilm.get_movie_streams(url)
     stream = quality_select_dialog(streams)
-    #stream = streams[0][1]
     plugin.set_resolved_url(stream)
 
 
@@ -56,7 +55,6 @@ def play_movie(url):
 def play_episode(url):
     streams = swefilm.get_movie_stream_from_player(url)
     stream = quality_select_dialog(streams)
-    #stream = streams[0][1]
     plugin.set_resolved_url(stream)
 
 @plugin.route('/search/')
