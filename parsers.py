@@ -20,7 +20,6 @@ def parse_movie_page(html):
     return []
 
 def get_player_link(html):
-    movie_list = re.search(r'<div class="m_list(.*?)</ul>', html, re.DOTALL)
     player_link = re.search(r'<a class="icons btn_watch_detail".*?href="(.*?)"', html)
     if player_link:
         return player_link.group(1)
@@ -35,6 +34,18 @@ def get_player_iframe_src(html):
 
 def parse_search(html):
     return parse_movie_page(html)
+
+def parse_episodes(html):
+    result = []
+
+    svep_match = re.search(r'<span class="svep">(.*?)</span>', html)
+    if svep_match:
+        inner_html = svep_match.group()
+        episodes = re.findall(r'<a.*?href="(.*?)">(.*?)</a>', inner_html)
+        for episode in episodes:
+            [url, title] = episode
+            result.append((url, title))
+    return result
 
 def extract_source_tags(html):
     source_tags = re.findall(r'(<source.*?\/>)', html)

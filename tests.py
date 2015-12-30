@@ -37,3 +37,9 @@ def test_parse_search_results():
     with open('fixtures/search.html') as f:
         result = parsers.parse_search(f.read())
         assert len(result) == 8
+
+
+def test_parse_episodes():
+    with open('fixtures/series_page.html') as f:
+        result = parsers.parse_episodes(f.read())
+        assert len(result) == 3
