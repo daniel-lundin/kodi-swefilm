@@ -4,8 +4,6 @@ import parsers
 def test_player_parsing():
     with open('fixtures/player.html') as f:
         streams = parsers.parse_player(f.read())
-        print streams
-        assert False
         assert len(streams) > 1
 
 
