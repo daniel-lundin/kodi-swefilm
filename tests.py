@@ -6,6 +6,12 @@ def test_player_parsing():
         streams = parsers.parse_player(f.read())
         assert len(streams) > 1
 
+def test_player_parsing_with_subs():
+    with open('fixtures/player_with_subs.html') as f:
+        streams, subs = parsers.parse_player(f.read())
+        assert len(subs) == 1
+
+
 
 def test_movie_page_parsing():
     with open('fixtures/movies_page.html') as f:
